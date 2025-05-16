@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-monitor
+  labels:
+    app: url-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-monitor
+  template:
+    metadata:
+      labels:
+        app: url-monitor
+    spec:
+      containers:
+        - name: url-monitor
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+            - name: URL_1
+              value: "https://httpstat.us/200"
+            - name: URL_2
+              value: "https://httpstat.us/503"
