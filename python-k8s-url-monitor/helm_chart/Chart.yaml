@@ -1,0 +1,13 @@
+name: python-k8s-url-monitor
+version: 0.1.0
+description: A simple Python service that monitors external URLs and exposes metrics in Prometheus format.
+maintainers:
+  - name: Your Name
+    email: your.email@example.com
+keywords:
+  - python
+  - prometheus
+  - monitoring
+  - kubernetes
+  - helm
+```

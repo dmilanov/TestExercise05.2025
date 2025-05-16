@@ -1,0 +1,17 @@
+image:
+  repository: your-docker-repo/python-k8s-url-monitor
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 80
+
+replicaCount: 1
+
+resources: {}
+  
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
