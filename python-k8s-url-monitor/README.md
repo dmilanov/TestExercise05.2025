@@ -10,7 +10,6 @@ python-k8s-url-monitor
 │   ├── __init__.py
 │   ├── main.py
 │   ├── poller.py
-│   └── webserver.py
 ├── helm_chart
 │   ├── Chart.yaml
 │   ├── values.yaml
