@@ -1,5 +1,5 @@
 image:
-  repository: your-docker-repo/python-k8s-url-monitor
+  repository: dmilanov232/test2025.5
   tag: latest
 
 service:

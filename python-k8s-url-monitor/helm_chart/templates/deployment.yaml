@@ -1,28 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: url-monitor
+  name: {{ include "python-k8s-url-monitor.fullname" . }} # Use Helm's full name template
   labels:
-    app: url-monitor
+    {{- include "python-k8s-url-monitor.labels" . | nindent 4 }} # Use Helm's labels template
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }} # Use replicaCount from values.yaml
   selector:
     matchLabels:
-      app: url-monitor
+      {{- include "python-k8s-url-monitor.selectorLabels" . | nindent 6 }} # Use Helm's selector labels template
   template:
     metadata:
       labels:
-        app: url-monitor
+        {{- include "python-k8s-url-monitor.selectorLabels" . | nindent 8 }} # Use Helm's selector labels template (must match spec.selector.matchLabels)
     spec:
       containers:
-        - name: url-monitor
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        - name: {{ .Chart.Name }} # Use the chart name for the container name
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 5000
+            - containerPort: 8080
           env:
             - name: FLASK_ENV
               value: "production"
             - name: URL_1
-              value: "https://httpstat.us/200"
+              value: "https://httpstat.us/200" # Or better, move these to values.yaml
             - name: URL_2
-              value: "https://httpstat.us/503"
+              value: "https://httpstat.us/503" # Or better, move these to values.yaml
+          # It's good practice to add liveness and readiness probes here
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
